@@ -4,13 +4,13 @@ const api = module.exports = require('express').Router()
 
 api
   .get('/questions', (req, res, next) => {
-    Quesiton.findAll({})
-      .then(products => res.send(products))
+    Question.findAll({})
+      .then(questions => res.send(questions))
       .catch(next)
   })
   .get('/questions/:id', (req, res, next) => {
     Question.findById(req.params.id)
-      .then(product => res.send(product))
+      .then(question => res.send(question))
       .catch(next)
   })
   
