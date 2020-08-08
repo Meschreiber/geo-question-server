@@ -19,13 +19,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // this.hasMany(models.Answer)
     }
   };
   Question.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     text: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
-    topic: DataTypes.ARRAY(DataTypes.STRING)
+    topic: DataTypes.ARRAY(DataTypes.STRING),
+    createdAt: new Date(),
+    updatedAt: new Date()
   }, {
     sequelize,
     modelName: 'Question',

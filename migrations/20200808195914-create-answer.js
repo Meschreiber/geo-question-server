@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.createTable('Answers', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        // autoIncrement: false,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
@@ -26,6 +26,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+      // questionId: {
+      //   allowNull: false,
+      //   foreignKey: true,
+      //   type: Sequelize.INTEGER
+      // },
     });
   },
   down: async (queryInterface, Sequelize) => {

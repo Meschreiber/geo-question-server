@@ -10,14 +10,18 @@ api
       .catch(next)
   })
   .get('/questions/:id', (req, res, next) => {
-    Question.findById(req.params.id)
+    Question.findAll({
+      where: {
+        id: req.params.id
+      }
+    })
       .then(question => res.send(question))
       .catch(next)
   })
   .get('/answers/:questionId', (req, res, next) => {
     Answer.findAll({
       where: {
-        questionID: req.params.questionID
+        questionId: req.params.questionId
       }
     })
       .then(question => res.send(question))

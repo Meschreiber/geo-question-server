@@ -23,9 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Answer.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
+    },
     text: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
-    valid: DataTypes.BOOLEAN
+    valid: DataTypes.BOOLEAN,
+    questionId: DataTypes.INTEGER,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }, {
     sequelize,
     modelName: 'Answer',
