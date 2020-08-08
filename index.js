@@ -16,7 +16,7 @@ module.exports = {
     return process.env.BASE_URL || `http://localhost:${process.env.port}`
   },
   get port() {
-    return env.PORT || 1337
+    return process.env.PORT || 1337
   },
   get root() {
     return __dirname
