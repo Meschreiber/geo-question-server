@@ -1,5 +1,5 @@
 'use strict'
-const { Question } = require('APP/db')
+const { Question} = require('APP/models')
 const api = module.exports = require('express').Router()
 
 api
