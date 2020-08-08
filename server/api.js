@@ -4,6 +4,7 @@ const api = module.exports = require('express').Router()
 
 api
   .get('/questions', (req, res, next) => {
+      console.log('getting questions')
     Question.findAll({})
       .then(questions => res.send(questions))
       .catch(next)
