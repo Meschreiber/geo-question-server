@@ -1,16 +1,16 @@
 {
   "development": {
-    "username": "postgres",
-    "password": null,
-    "database": "geo-question-server",
-    "host": "127.0.0.1",
+    "username": "",
+    "password": "password",
+    "database": "trivia_questions_dev",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "password": null,
-    "database": "geo-question-server",
-    "host": "127.0.0.1",
+    "username": "",
+    "password": "password",
+    "database": "trivia_questions_prod",
+    "host": "localhost",
     "dialect": "postgres",
     "use_env_variable": "DATABASE_URL"
   }

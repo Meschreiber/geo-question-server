@@ -1,35 +1,23 @@
 {
-  "name": "geo-question-server",
+  "name": "sample-pg-heroku",
   "version": "1.0.0",
-  "description": "Servin' up some trivia",
+  "description": "Just testing things out",
   "main": "index.js",
-  "repository": "https://github.com/Meschreiber/geo-question-server.git",
+  "repository": "https://github.com/Meschreiber/sample-pg-heroku.git",
   "author": "Meschreiber <meschreiber3@gmail.com>",
   "license": "MIT",
-  "private": true,
-  "engines": {
-    "node": ">= 12.18.0"
-  },
   "scripts": {
     "start": "node server/index.js",
-    "start-watch": "nodemon server/index.js --watch server --watch db --watch index.js --watch package.json",
-    "lint": "esw . --ignore-path .gitignore --ext '.js,.jsx'"
+    "start-watch": "nodemon server/index.js --watch server --watch db --watch index.js --watch package.json"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.3.0",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.4",
     "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
-    "eslint": "^7.6.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-standard": "^4.0.1",
-    "eslint-watch": "^7.0.0",
-    "homedir": "^0.6.0",
-    "nodemon": "^2.0.4",
-    "pretty-error": "^2.1.1"
+    "nodemon": "^2.0.4"
   }
 }
