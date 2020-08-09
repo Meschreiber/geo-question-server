@@ -35,7 +35,7 @@ module.exports = app
 if (module === require.main) {
   // Start listening only if we're the main module.
   const server = app.listen(
-    pkg.port,
+    process.env.PORT || 3000,
     () => {
       console.log(`--- Started HTTP Server for ${pkg.name} ---`)
       const { address, port } = server.address()
