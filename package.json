@@ -13,7 +13,6 @@
   "scripts": {
     "start": "node server/index.js",
     "start-watch": "nodemon server/index.js --watch server --watch db --watch index.js --watch package.json",
-    "seed": "node db/seed.js",
     "lint": "esw . --ignore-path .gitignore --ext '.js,.jsx'"
   },
   "dependencies": {
