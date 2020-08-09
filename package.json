@@ -11,7 +11,8 @@
     "node": ">= 12.18.0"
   },
   "scripts": {
-    "start": "nodemon server/index.js --watch server --watch db --watch index.js --watch package.json",
+    "start": "node server/index.js",
+    "start-watch": "nodemon server/index.js --watch server --watch db --watch index.js --watch package.json",
     "seed": "node db/seed.js",
     "lint": "esw . --ignore-path .gitignore --ext '.js,.jsx'"
   },
