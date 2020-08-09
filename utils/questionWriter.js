@@ -4,6 +4,9 @@ const countries = JSON.parse(fs.readFileSync('utils/aggregated_country_data.JSON
 let questionId = 0;
 let answerID = 0;
 
+let questions = [],
+    answers = [];
+
 function randomCountry(countries) {
     const randomInt = Math.floor(Math.random() * Math.floor(countries.length));
     return countries[randomInt];
@@ -23,6 +26,8 @@ function genericQuestionGenerator({ rawText, questionProp, answerProp, numAnswer
 
         if (Array.isArray(answerCountry[answerProp])) {
             answers = answerCountry[answerProp].map(answer => ({
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 questionId: id,
                 text: answer,
                 valid: true,
@@ -30,6 +35,8 @@ function genericQuestionGenerator({ rawText, questionProp, answerProp, numAnswer
             }))
         } else {
             answers = [{
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 questionId: id,
                 text: answerCountry[answerProp],
                 valid: true,
@@ -47,6 +54,8 @@ function genericQuestionGenerator({ rawText, questionProp, answerProp, numAnswer
             }
 
             answers[i] = {
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 questionId: id,
                 text: possibleAnswer,
                 valid: false,
@@ -55,13 +64,16 @@ function genericQuestionGenerator({ rawText, questionProp, answerProp, numAnswer
         }
 
         return {
-            id,
-            topic: 'Geography',
-            text,
+            question: {
+                id,
+                topic: ['Geography'],
+                text,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
             answers: answers.slice(0, numAnswers)
         }
     }
-
 }
 
 const capitalCityQuestion = genericQuestionGenerator({ rawText: 'ANSWER is the capital city of which country or territory?', questionProp: 'Capital (exonym)', answerProp: 'Name' })
@@ -69,7 +81,7 @@ const capitalCityQuestion2 = genericQuestionGenerator({ rawText: 'What is the ca
 const languageQuestion = genericQuestionGenerator({ rawText: "Which of these are official languages of ANSWER? (Select all that apply.)", questionProp: "Name", answerProp: "Official or native language(s) (alphabet/script)" })
 
 // How many countries does {} border?
-function borderQuestion() {
+function borderQuestion(numAnswers = 5) {
     const id = questionId++;
     let answerCountry = randomCountry(countries)
 
@@ -79,18 +91,22 @@ function borderQuestion() {
 
     const text = `How many other countries does ${answerCountry.Name} share a land border with?`
     const answers = [{
+        createdAt: new Date(),
+        updatedAt: new Date(),
         questionId: id,
         text: answerCountry['No. of unique land neighbours'],
         valid: true,
         id: answerID++
     }]
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < numAnswers; i++) {
         let borders = Math.floor(Math.random() * 7);
         while (answers.map(answer => answer.text).includes(borders)) {
             borders = Math.floor(Math.random() * 7);
         }
         answers[i] = {
+            createdAt: new Date(),
+            updatedAt: new Date(),
             questionId: id,
             text: borders,
             valid: false,
@@ -98,10 +114,14 @@ function borderQuestion() {
         }
     }
     return {
-        id,
-        topic: 'Geography',
-        text,
-        // answers
+        question: {
+            id,
+            topic: ['Geography'],
+            text,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        answers: answers.slice(0, numAnswers)
     }
 }
 
@@ -131,6 +151,8 @@ function highestLowestQuestionGenerator({ highOrLow, prop, rawText, numAnswers =
         });
 
         const answers = [{
+            createdAt: new Date(),
+            updatedAt: new Date(),
             questionId: id,
             text: answerCountry.Name,
             valid: true,
@@ -144,6 +166,8 @@ function highestLowestQuestionGenerator({ highOrLow, prop, rawText, numAnswers =
                 incorrectAnswer = randomCountry(countriesInContinent)
             }
             answers[i] = {
+                createdAt: new Date(),
+                updatedAt: new Date(),
                 questionId: id,
                 text: incorrectAnswer.Name,
                 valid: false,
@@ -152,9 +176,13 @@ function highestLowestQuestionGenerator({ highOrLow, prop, rawText, numAnswers =
         }
 
         return {
-            id,
-            topic: 'Geography',
-            text,
+            question: {
+                id,
+                topic: ['Geography'],
+                text,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
             answers: answers.slice(0, numAnswers)
         }
     }
@@ -162,9 +190,9 @@ function highestLowestQuestionGenerator({ highOrLow, prop, rawText, numAnswers =
 
 const highestPopulationQuestion = highestLowestQuestionGenerator({ highOrLow: 1, prop: 'Population', rawText: `What country or territory in CONTINENT has the HIGHLOW PROP?`, numAnswers: 5 })
 
-const highestElevationQuestion = highestLowestQuestionGenerator({ highOrLow: 1, prop: 'Maximum elevation (m)', rawText: `What country or territory in CONTINENT has the HIGHLOW PROP?`, numAnswers: 5 })
+const highestElevation = highestLowestQuestionGenerator({ highOrLow: 1, prop: 'Maximum elevation (m)', rawText: `What country or territory in CONTINENT has the HIGHLOW PROP?`, numAnswers: 5 })
 
-const lowestElevationQuestion = highestLowestQuestionGenerator({ highOrLow: 0, prop: 'Minimum elevation (m)', rawText: `What country or territory in CONTINENT  has the HIGHLOW PROP?`, numAnswers: 5 })
+const lowestElevation = highestLowestQuestionGenerator({ highOrLow: 0, prop: 'Minimum elevation (m)', rawText: `What country or territory in CONTINENT  has the HIGHLOW PROP?`, numAnswers: 5 })
 
 const highestLandArea = highestLowestQuestionGenerator({ highOrLow: 1, prop: 'Land Area in km2', rawText: `What country or territory in CONTINENT has the HIGHLOW PROP?`, numAnswers: 5 })
 
@@ -188,6 +216,8 @@ function randomTrivia(numAnswers = 5) {
     const text = `For which country is the following a true statement? (Select all that apply.) ${randomTrivia}`
     let answerCountries = countriesWithTrivia.filter(country => country.Trivia.includes(randomTrivia))
     let answers = answerCountries.map(answer => ({
+        createdAt: new Date(),
+        updatedAt: new Date(),
         questionId: id,
         text: answer.Name,
         valid: true,
@@ -201,34 +231,78 @@ function randomTrivia(numAnswers = 5) {
             incorrectCountry = randomCountry(countries)
         }
         answers[i] = {
+            createdAt: new Date(),
+            updatedAt: new Date(),
             questionId: id,
             text: incorrectCountry.Name,
             valid: false,
             id: answerID++
         }
     }
-    return {
-        id,
-        topic: 'Geography',
-        text,
-       answers:  answers.slice(0, numAnswers)
-    }
 
+    return {
+        question: {
+            id,
+            topic: ['Geography'],
+            text,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+        answers: answers.slice(0, numAnswers)
+    }
 }
 
-console.log(capitalCityQuestion())
-console.log(capitalCityQuestion2())
-console.log(languageQuestion())
-console.log(borderQuestion())
-console.log(highestPopulationQuestion())
-console.log(highestLandArea())
-console.log(highestTotalArea())
-console.log(highestCoastline())
-console.log(highestTotalLengthBorders())
-console.log(highestElevationSpan())
-console.log(highestElevationQuestion())
-console.log(lowestElevationQuestion())
-console.log(randomTrivia())
+function addQuestion(questionType, numToAdd, questions, answers) {
+    let added = 0;
+    while (added < numToAdd) {
+        const tentative = questionType()
+        if (!questions.map(question => question.text).includes(tentative.question.text)) {
+            questions.push(tentative.question)
+            answers = answers.concat(tentative.answers)
+            added += 1;
+        } else {
+            // console.log("We've had this one!")
+            // console.log(tentative.question)
+        }
+    }
+    return {
+        questions,
+        answers
+    }
+}
+
+// console.log(capitalCityQuestion())
+// console.log(capitalCityQuestion2())
+// console.log(languageQuestion())
+// console.log(borderQuestion())
+// console.log(highestPopulationQuestion())
+// console.log(highestLandArea())
+// console.log(highestTotalArea())
+// console.log(highestCoastline())
+// console.log(highestTotalLengthBorders())
+// console.log(highestElevationSpan())
+// console.log(highestElevation())
+// console.log(lowestElevation())
+// console.log(randomTrivia())
+
+({questions, answers} = addQuestion(capitalCityQuestion, 200, questions, answers));
+({questions, answers} = addQuestion(capitalCityQuestion2, 200, questions, answers));
+({questions, answers} = addQuestion(languageQuestion, 100, questions, answers));
+({questions, answers} = addQuestion(borderQuestion, 100, questions, answers));
+({questions, answers} = addQuestion(highestPopulationQuestion, 5, questions, answers));
+({questions, answers} = addQuestion(highestLandArea, 5, questions, answers));
+({questions, answers} = addQuestion(highestTotalArea, 5, questions, answers));
+({questions, answers} = addQuestion(highestCoastline, 5, questions, answers));
+({questions, answers} = addQuestion(highestTotalLengthBorders, 5, questions, answers));
+({questions, answers} = addQuestion(highestElevationSpan, 5, questions, answers));
+({questions, answers} = addQuestion(highestElevation, 5, questions, answers));
+({questions, answers} = addQuestion(lowestElevation, 5, questions, answers));
+({questions, answers} = addQuestion(randomTrivia, 20, questions, answers));
+
+module.exports = {
+    questions,
+    answers
+}
 
 
 
