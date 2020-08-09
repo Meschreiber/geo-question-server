@@ -3,14 +3,13 @@
 const path = require('path')
 const express = require('express')
 const PrettyError = require('pretty-error')
-const pkg = require('APP')
-
 const app = express()
 
-if (!pkg.isProduction && !pkg.isTesting) {
-  // Logging middleware (dev only)
-  app.use(require('volleyball'))
-}
+// const pkg = require('APP')
+// if (!pkg.isProduction && !pkg.isTesting) {
+//   // Logging middleware (dev only)
+//   app.use(require('volleyball'))
+// }
 
 // Pretty error prints errors all pretty.
 const prettyError = new PrettyError
@@ -20,13 +19,6 @@ prettyError.skipNodeFiles()
 prettyError.skipPackage('express')
 
 module.exports = app
-.use('', (req, res, next) => {
-  res.send(`The following endpoints are available:
-  /api/questions 
-  /apiquestions/:id
-   /api/answers/:questionId
-   `)
-})
   .use('/api', require('./api'))
   // any requests with an extension (.js, .css, etc.) turn into 404
   .use((req, res, next) => {
@@ -44,7 +36,7 @@ if (module === require.main) {
   const server = app.listen(
     process.env.PORT || 3000,
     () => {
-      console.log(`--- Started HTTP Server for ${pkg.name} ---`)
+      console.log(`--- Started HTTP Server for Geography Questions} ---`)
       const { address, port } = server.address()
       const host = address === '::' ? 'localhost' : address
       const urlSafeHost = host.includes(':') ? `[${host}]` : host
