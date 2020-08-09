@@ -20,6 +20,13 @@ prettyError.skipNodeFiles()
 prettyError.skipPackage('express')
 
 module.exports = app
+.use('', (req, res, next) => {
+  res.send(`The following endpoints are available:
+  /api/questions 
+  /apiquestions/:id
+   /api/answers/:questionId
+   `)
+})
   .use('/api', require('./api'))
   // any requests with an extension (.js, .css, etc.) turn into 404
   .use((req, res, next) => {
